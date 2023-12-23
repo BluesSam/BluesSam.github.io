@@ -651,6 +651,34 @@ function mainloop() {
                     break;
                 }
             }
+            if(cut == 2){
+                setAlp(counter);
+                putUnit(2);
+                putMsg(400, 900);
+                putName(2);
+                setMsg("エリオン、私はアサルトの杖を持っています。");
+                setMsg("これで、遠くの敵を攻撃できますよ。");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 3){
+                setAlp(counter);
+                putMsg(400, 500);
+                setMsg("アサルトの杖は1マス離れた敵を攻撃できます。");
+                setMsg("通常攻撃よりも威力が高いので強力です。");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    scene = 41;
+                    cut = 0;
+                    counter = 0;
+                    break;
+                }
+            }
         }
         
             
@@ -1331,7 +1359,6 @@ function mainloop() {
                     counter = 0;                   
                 }
                 else if(flg[FLG_EVENT+6] == 0) {//1章　戦闘前会話
-                    flg[FLG_EVENT+6] = 1;
                     event = FLG_EVENT+6;
                     scene = 2;
                     cut = 0;
@@ -1421,6 +1448,13 @@ function mainloop() {
                 counter = 2;
                 cut = 4;
                 flg[FLG_EVENT+3] = 1;
+                break;
+            }
+            if(flg[FLG_STAGE+0] == 1 && flg[FLG_EVENT+6] == 0) {//1章の1ターン目開始時
+                scene = 2;
+                counter = 0;
+                cut = 2;
+                flg[FLG_EVENT+6] = 1;
                 break;
             }
             if(flg[FLG_STAGE+1] == 1 && flg[FLG_STAGE+2] == 0 && phase_count == 2) {//2章のターン２のとき、グリフィンが救援に駆けつける
@@ -1536,6 +1570,7 @@ function mainloop() {
             counter = 0;
             use_item = 0;//┬アサルトの杖判定を消す
             c_atk   = 0; //┘
+            cut = 0;
         }
         if(0<=x && x<12 && 0<=y && y<9) {
             var n = enemy_map[y][x];
@@ -1552,7 +1587,7 @@ function mainloop() {
             fText("chara[3].turn  "+ chara[3].turn, 100, 200, 20, "white");//確認用
         }
         for(i=0; i<EMY_MAX; i++) {//攻撃する敵を識別するために、倒していない全ての敵を調べる
-            if(chara[EMY_TOP+i].X == int(tapX/SIZE)+1 && chara[EMY_TOP+i].Y == int(tapY/SIZE)-2 && chara[EMY_TOP+i].life > 0) {
+            if(chara[EMY_TOP+i].X == int(tapX/SIZE)+1 && chara[EMY_TOP+i].Y == int(tapY/SIZE)-2 && chara[EMY_TOP+i].life > 0 && cut == 0) {
 
                 //見切り反撃の場合（杖で攻撃など）
                 if(c_atk == 1) {
@@ -1573,16 +1608,14 @@ function mainloop() {
                         fText("マウスポインタ上の攻撃対象chara" + (EMY_TOP+i), 120, 260, 20, "white");//確認用
                         if(tapC == 1) {
                             tapC = 0;
+                            cut = 1;
                             btl_char = sel_member;
                             def_char = EMY_TOP+i;
-                            //log("確認ボタン後の今から攻撃するキャラ(EMY_TOP+i): " + (EMY_TOP+i));//確認用
-                            //log("確認ボタン後の今から攻撃するキャラ(def_char): " + def_char);//確認用
-                            scene = 43;
-                            counter = 0;
-                            chara[sel_member].item[sel_item]--;
-                            chara[sel_member].turn = 0;
+                            
                         }
+                        
                     }
+                    
 
                 } //見切り反撃ではない場合
                 else if( chara[sel_member].X == chara[EMY_TOP+i].X   && chara[sel_member].Y == chara[EMY_TOP+i].Y+1 || //上に敵がいるか
@@ -1598,14 +1631,28 @@ function mainloop() {
                         fText("マウスポインタ上の攻撃対象chara" + (EMY_TOP+i), 120, 260, 20, "white");//確認用
                         if(tapC == 1) {
                             tapC = 0;
+                            cut = 1;
                             btl_char = sel_member;
                             def_char = EMY_TOP+i;
-                            //log("確認ボタン後の今から攻撃するキャラ(EMY_TOP+i): " + (EMY_TOP+i));//確認用
-                            //log("確認ボタン後の今から攻撃するキャラ(def_char): " + def_char);//確認用
-                            scene = 43;
-                            counter = 0;
                             
                         }
+                }
+            }
+            if(cut == 1) {
+                lineW(3);
+                setAlp(80);
+                sRect(chara[def_char].X*SIZE-SIZE-9+(counter/5%5), chara[def_char].Y*SIZE+150-10+(counter/5%5), SIZE+20-(counter/2%12.5), SIZE+20-(counter/2%12.5), "#F09");//カーソルの枠を表示
+                sRect(chara[def_char].X*SIZE-SIZE-7+(counter/5%5), chara[def_char].Y*SIZE+150-8+(counter/5%5), SIZE+16-(counter/2%12.5), SIZE+16-(counter/2%12.5), "#F09");//カーソルの内側枠を表示
+                fTri( chara[def_char].X*SIZE-SIZE*0.75, chara[def_char].Y*SIZE+SIZE*1.4+(counter/2%12.5) ,  chara[def_char].X*SIZE-SIZE*0.5, chara[def_char].Y*SIZE+SIZE*1.7+(counter/2%12.5),  chara[def_char].X*SIZE-SIZE*0.25, chara[def_char].Y*SIZE+SIZE*1.4+(counter/2%12.5), "#EEE");
+                fTri( chara[def_char].X*SIZE-SIZE*0.7, chara[def_char].Y*SIZE+SIZE*1.4+2+(counter/2%12.5) ,  chara[def_char].X*SIZE-SIZE*0.5, chara[def_char].Y*SIZE+SIZE*1.6+2+(counter/2%12.5),  chara[def_char].X*SIZE-SIZE*0.3, chara[def_char].Y*SIZE+SIZE*1.4+2+(counter/2%12.5), "#FFF");
+                lineW(2);
+                setAlp(100);
+                drawBtlResult(btl_char, def_char);
+                if(cirBtn(500, 900, 100, "実行")){ 
+                    scene = 43;
+                    counter = 0;
+                    if(c_atk == 1) { chara[sel_member].item[sel_item]--; chara[sel_member].turn = 0; }                
+                    cut = 0;
                 }
             }
         }
@@ -1995,6 +2042,7 @@ function mainloop() {
                 scene = 41;
                 counter = 0;
                 sel_item = 0;
+                cut = 0;
             }
             if(chara[sel_member].ITEM[sel_item*3] == "傷薬" && chara[sel_member].life < chara[sel_member].lfmax && chara[sel_member].item[sel_item] > 0) {
                 if(cirBtn(500, 900, 100, "使用")) {
@@ -2055,22 +2103,37 @@ function mainloop() {
                                     drawBtlResult(sel_member, heal_member);   
                                     if(tapC == 1){
                                         tapC = 0;
-                                        chara[sel_member].turn = 0;           
-                                        chara[sel_member].item[sel_item]--;
-                                        chara[heal_member].life += chara[sel_member].ITEM[sel_item*3+2];
-                                        console.log("sel_item: " + sel_item);//確認用
-                                        console.log("chara[sel_member].ITEM[sel_item*3]: " + chara[sel_member].ITEM[sel_item*3]);//確認用
-                                        console.log("chara[sel_member].ITEM[sel_item*3+2]: " + chara[sel_member].ITEM[sel_item*3+2]);//確認用
-                                        if(chara[heal_member].life > chara[heal_member].lfmax) chara[heal_member].life = chara[heal_member].lfmax;
-                                        chara[heal_member].efct = 1;
-                                        chara[heal_member].etime = 15;
-                                        playSE(6);
-                                        scene = 46;
-                                        counter = 0;                                         
+                                        cut = 1;                                     
                                     }  
                             }                                                       
                         }
                     }
+            }
+            if(cut == 1) {
+                lineW(3);
+                setAlp(80);
+                sRect(chara[heal_member].X*SIZE-SIZE-9+(counter/5%5), chara[heal_member].Y*SIZE+150-10+(counter/5%5), SIZE+20-(counter/2%12.5), SIZE+20-(counter/2%12.5), "#0F0");//カーソルの枠を表示
+                sRect(chara[heal_member].X*SIZE-SIZE-7+(counter/5%5), chara[heal_member].Y*SIZE+150-8+(counter/5%5), SIZE+16-(counter/2%12.5), SIZE+16-(counter/2%12.5), "#0F0");//カーソルの内側枠を表示
+                fTri( chara[heal_member].X*SIZE-SIZE*0.75, chara[heal_member].Y*SIZE+SIZE*1.4+(counter/2%12.5) ,  chara[heal_member].X*SIZE-SIZE*0.5, chara[heal_member].Y*SIZE+SIZE*1.7+(counter/2%12.5),  chara[heal_member].X*SIZE-SIZE*0.25, chara[heal_member].Y*SIZE+SIZE*1.4+(counter/2%12.5), "#EEE");
+                fTri( chara[heal_member].X*SIZE-SIZE*0.7, chara[heal_member].Y*SIZE+SIZE*1.4+2+(counter/2%12.5) ,  chara[heal_member].X*SIZE-SIZE*0.5, chara[heal_member].Y*SIZE+SIZE*1.6+2+(counter/2%12.5),  chara[heal_member].X*SIZE-SIZE*0.3, chara[heal_member].Y*SIZE+SIZE*1.4+2+(counter/2%12.5), "#FFF");
+                lineW(2);
+                setAlp(100);
+                drawBtlResult(sel_member, heal_member);
+                if(cirBtn(500, 900, 100, "実行")){ 
+                    chara[sel_member].turn = 0;           
+                    chara[sel_member].item[sel_item]--;
+                    chara[heal_member].life += chara[sel_member].ITEM[sel_item*3+2];
+                    //console.log("sel_item: " + sel_item);//確認用
+                    //console.log("chara[sel_member].ITEM[sel_item*3]: " + chara[sel_member].ITEM[sel_item*3]);//確認用
+                    //console.log("chara[sel_member].ITEM[sel_item*3+2]: " + chara[sel_member].ITEM[sel_item*3+2]);//確認用
+                    if(chara[heal_member].life > chara[heal_member].lfmax) chara[heal_member].life = chara[heal_member].lfmax;
+                    chara[heal_member].efct = 1;
+                    chara[heal_member].etime = 15;
+                    playSE(6);
+                    scene = 46;
+                    counter = 0;                
+                    cut = 0;
+                }
             }                
         }
         else if(scene == 46) {
@@ -2763,9 +2826,9 @@ var EMY = [//   　　  Lv  HP atk def mov rng typ
 "アクスファイター",    5, 26, 15,  1,  2,  1,  7
 ];
 var EMY_1 = [//   　  Lv  HP atk def mov rng typ
-"マーシナリー",        6, 23, 16,  2,  2,  1,  5,
+"マーシナリー",        6, 23, 15,  2,  2,  1,  5,
 "ソシアルナイト",      6, 30, 22, 10,  3,  1,  6,
-"アクスファイター",    6, 27, 20,  1,  2,  1,  7
+"アクスファイター",    6, 26, 17,  1,  2,  1,  7
 ];
 var EMY_2 = [//   　  Lv  HP atk def mov rng typ
 "マーシナリー",        7, 27, 20, 4,  2,  1,  5,
@@ -2773,9 +2836,9 @@ var EMY_2 = [//   　  Lv  HP atk def mov rng typ
 "アクスファイター",    7, 31, 24, 2,  2,  1,  7
 ];
 var EMY_3 = [//   　  Lv  HP atk def mov rng typ
-"マーシナリー",        8, 25, 18, 3,  2,  1,  5,
+"マーシナリー",        8, 25, 17, 3,  2,  1,  5,
 "ソシアルナイト",      8, 23, 15, 2,  3,  1,  6,
-"アクスファイター",    8, 29, 24, 2,  2,  1,  7
+"アクスファイター",    8, 28, 20, 2,  2,  1,  7
 ];
 
 var EMY_H = [//   　　Lv  HP atk def mov rng typ
