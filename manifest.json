@@ -1,21 +1,21 @@
 {
-    "short_name"          :"エリオン",
-    "name"                :"千閃のエリオン",
-    "description"         :"SRPG",
-    "start_url"           :"https://bluessam.github.io/",
-    "background_color"    :"#000000",
-    "theme_color"         :"#0040c0",
-    "display"             :"standalone",
+    "short_name": "エリオン",
+    "name": "千閃のエリオン",
+    "description": "SRPG",
+    "start_url": "https://bluessam.github.io/",
+    "background_color": "#000000",
+    "theme_color": "#0040c0",
+    "display": "standalone",
     "icons": [
-    {
-     "src": "imageFE/icon_512.png",
-     "sizes": "512x512",
-     "type": "image/png"
-    },
-    {
-     "src": "imageFE/icon_192.png",
-     "sizes": "192x192",
-     "type": "image/png"
-    }
+      {
+        "src": "imageFE/icon_512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "imageFE/icon_192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
     ]
-}
+  }
