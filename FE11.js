@@ -1560,7 +1560,7 @@ function mainloop() {
         break;
 
         case 42://攻撃する敵ユニットを選択  
-        //putMsg(400, 250);
+        
         //if(counter == 10) setMsg("攻撃する敵をクリックしてください");
         drawBG();    
         var x = int(tapX/SIZE)+1;
@@ -1611,6 +1611,9 @@ function mainloop() {
                             cut = 1;
                             btl_char = sel_member;
                             def_char = EMY_TOP+i;
+                            putMsg(400, 250);
+                            setMsg("攻撃対象を選択");
+                            setMsg("");
                             
                         }
                         
@@ -1634,11 +1637,14 @@ function mainloop() {
                             cut = 1;
                             btl_char = sel_member;
                             def_char = EMY_TOP+i;
+                            setMsg("攻撃対象を選択");
+                            setMsg("");
                             
                         }
                 }
             }
             if(cut == 1) {
+                putMsg(400, 250);
                 lineW(3);
                 setAlp(80);
                 sRect(chara[def_char].X*SIZE-SIZE-9+(counter/5%5), chara[def_char].Y*SIZE+150-10+(counter/5%5), SIZE+20-(counter/2%12.5), SIZE+20-(counter/2%12.5), "#F09");//カーソルの枠を表示
@@ -2059,6 +2065,8 @@ function mainloop() {
                 if(cirBtn(500, 900, 100, "使用")) {
                     scene = 45;
                     counter = 0;
+                    setMsg("回復対象を選択");
+                    setMsg("");
                 }
             }
             if(chara[sel_member].ITEM[sel_item*3] == "アサルト" && chara[sel_member].item[sel_item] > 0) {
@@ -2072,6 +2080,7 @@ function mainloop() {
             }
         }     
         else if(scene == 45) {
+            putMsg(400, 250);
             var x = int(tapX/SIZE)+1;
             var y = int(tapY/SIZE)-2;
             if(cirBtn(700, 900, 100, "キャンセル")) {
