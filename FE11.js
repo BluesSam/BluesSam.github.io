@@ -234,10 +234,10 @@ function mainloop() {
     if(scene == 1) {
         fText(digit0(int(gtime/30/60/60),2)+":"+digit0(int(gtime/30/60),2)+":"+digit0(int(gtime/30)%60,2), 700, 30, 30, "white");
     }
-    fText("cut : "+cut, 110, 750, 30, "black");//確認用
-    fText("counter : "+counter, 110, 800, 30, "black");//確認用
-    fText("scene : "+scene, 110, 900, 30, "black");//確認用
-    fText("event : "+event, 110, 950, 30, "black");//確認用
+    //fText("cut : "+cut, 110, 750, 30, "black");//確認用
+    //fText("counter : "+counter, 110, 800, 30, "black");//確認用
+    //fText("scene : "+scene, 110, 900, 30, "black");//確認用
+    //fText("event : "+event, 110, 950, 30, "black");//確認用
     //fText("enemy_turn : "+enemy_turn, 120, 830, 30, "white");//確認用
     
     if(scene > 0) {
@@ -1483,8 +1483,8 @@ function mainloop() {
             } 
         }
         //putMsg(400, 250);
-        drawFrame(10, 820, 180, 50, "black", "white", 100); 
-        fText("ターン数 " + phase_count, 100, 845, 30, "white");
+        //drawFrame(10, 820, 180, 50, "black", "white", 100); 
+        //fText("ターン数 " + phase_count, 100, 845, 30, "white");
         selMember();
         for(i=EMY_TOP; i<EMY_TOP+EMY_MAX; i++) {
             for(y=0; y<9; y++) {
@@ -1507,7 +1507,7 @@ function mainloop() {
         //fText("chara[2].turn  "+ chara[2].turn, 100, 180, 20, "white");//確認用 
         //fText("chara[3].turn  "+ chara[3].turn, 100, 200, 20, "white");//確認用 
         //fText("動作キャラ  "+ chara[sel_member].name, 100, 240, 20, "white");//確認用
-        fText("counter  "+ counter, 100, 220, 20, "white");//確認用        
+       //fText("counter  "+ counter, 100, 220, 20, "white");//確認用        
         if(chara[sel_member].turn == 1) { 
             calMoveRange(sel_member, chara[sel_member].axisY, chara[sel_member].axisX, chara[sel_member].move+2);
             
@@ -1574,17 +1574,17 @@ function mainloop() {
         }
         if(0<=x && x<12 && 0<=y && y<9) {
             var n = enemy_map[y][x];
-            fText("選択キャラ: "+n, 600, 100, 20, "white");//確認用
-            fText("ターゲット: "+sel_enemy, 600, 350, 20, "white");//確認用
-            fText("tapX: "+tapX, 600, 150, 20, "white");//確認用
-            fText("tapY: "+tapY, 600, 200, 20, "white");//確認用
-            fText("x: "+x, 600, 250, 20, "white");//確認用
-            fText("y: "+y, 600, 300, 20, "white");//確認用 
-            fText("staX: "+x*SIZE-SIZE-20, 600, 350, 20, "white");//確認用
-            fText("staY: "+y*SIZE+150-20, 600, 400, 20, "white");//確認用 
+            //fText("選択キャラ: "+n, 600, 100, 20, "white");//確認用
+            //fText("ターゲット: "+sel_enemy, 600, 350, 20, "white");//確認用
+            //fText("tapX: "+tapX, 600, 150, 20, "white");//確認用
+            //fText("tapY: "+tapY, 600, 200, 20, "white");//確認用
+            //fText("x: "+x, 600, 250, 20, "white");//確認用
+            //fText("y: "+y, 600, 300, 20, "white");//確認用 
+            //fText("staX: "+x*SIZE-SIZE-20, 600, 350, 20, "white");//確認用
+            //fText("staY: "+y*SIZE+150-20, 600, 400, 20, "white");//確認用 
 
             
-            fText("chara[3].turn  "+ chara[3].turn, 100, 200, 20, "white");//確認用
+            //fText("chara[3].turn  "+ chara[3].turn, 100, 200, 20, "white");//確認用
         }
         for(i=0; i<EMY_MAX; i++) {//攻撃する敵を識別するために、倒していない全ての敵を調べる
             if(chara[EMY_TOP+i].X == int(tapX/SIZE)+1 && chara[EMY_TOP+i].Y == int(tapY/SIZE)-2 && chara[EMY_TOP+i].life > 0 && cut == 0) {
@@ -1605,7 +1605,7 @@ function mainloop() {
                         fRect(x*SIZE-SIZE, y*SIZE+150, SIZE, SIZE, "#F00");//マウスポインタのマスに正方形を表示
                         setAlp(100);
                         lineW(2);
-                        fText("マウスポインタ上の攻撃対象chara" + (EMY_TOP+i), 120, 260, 20, "white");//確認用
+                        //fText("マウスポインタ上の攻撃対象chara" + (EMY_TOP+i), 120, 260, 20, "white");//確認用
                         if(tapC == 1) {
                             tapC = 0;
                             cut = 1;
@@ -1628,7 +1628,7 @@ function mainloop() {
                         fRect(x*SIZE-SIZE, y*SIZE+150, SIZE, SIZE, "#F00");//マウスポインタのマスに正方形を表示
                         setAlp(100);
                         lineW(2);
-                        fText("マウスポインタ上の攻撃対象chara" + (EMY_TOP+i), 120, 260, 20, "white");//確認用
+                        //fText("マウスポインタ上の攻撃対象chara" + (EMY_TOP+i), 120, 260, 20, "white");//確認用
                         if(tapC == 1) {
                             tapC = 0;
                             cut = 1;
@@ -1663,7 +1663,7 @@ function mainloop() {
         case 48://レベルアップ判定    
             putMsg(400, 900);
             drawBG();
-            fText("counter: " + counter, 200, 750, 30, "white");//確認用
+            //fText("counter: " + counter, 200, 750, 30, "white");//確認用
             if(scene == 43) {
                 //fText("敵の守備 "+ chara[def_char].defen, 100, 100, 20, "white");//確認用
                 //fText("味方の攻撃力 "+ chara[btl_char].stren, 100, 120, 20, "white");//確認用
@@ -2084,10 +2084,10 @@ function mainloop() {
                 //fText("動作キャラ: "+sel_member, 600, 350, 30, "white");//確認用
                 //fText("tapX: "+tapX, 600, 150, 30, "white");//確認用
                 //fText("tapY: "+tapY, 600, 200, 30, "white");//確認用
-                fText("x: "+x, 600, 250, 30, "white");//確認用
-                fText("y: "+y, 600, 300, 30, "white");//確認用
-                fText("staX: "+ (x*SIZE-SIZE-20), 600, 350, 20, "white");//確認用
-                fText("staY: "+ (y*SIZE+150-20), 600, 400, 20, "white");//確認用
+                //fText("x: "+x, 600, 250, 30, "white");//確認用
+                //fText("y: "+y, 600, 300, 30, "white");//確認用
+                //fText("staX: "+ (x*SIZE-SIZE-20), 600, 350, 20, "white");//確認用
+                //fText("staY: "+ (y*SIZE+150-20), 600, 400, 20, "white");//確認用
                     for(i=1; i<=MEMBER_MAX; i++) {
                         if(member_map[y][x] == i && chara[i].life < chara[i].lfmax) {
                             if( chara[sel_member].X == chara[i].X   && chara[sel_member].Y == chara[i].Y+1 || //上に味方がいるか
@@ -2168,7 +2168,7 @@ function mainloop() {
         case 51://敵フェイズ開始　行動順を決める
         case 52://順に行動していく
         case 53://移動する
-        fText("counter  "+ counter, 100, 220, 20, "white");//確認用 
+        //fText("counter  "+ counter, 100, 220, 20, "white");//確認用 
         drawBG();
         if(scene == 51) {
             if(10 <= counter  && counter <= 49) {
@@ -3431,7 +3431,7 @@ function drawBG() {
             }
             drawImgTS(9, 64*abs(int(counter/4%7)), (chara[k].typ - EMY_TOP) * 64 - 64, 64, 64, chara[k].staX + chara[k].posX, chara[k].staY + chara[k].posY, SIZE+40, SIZE+40);   
             drawBar(chara[k].staX+25, chara[k].staY+SIZE+10, 70, 10, chara[k].life, chara[k].lfmax, "#F00", "#800");
-            fText("ch:" + k, chara[k].X * SIZE - SIZE+10, chara[k].Y * SIZE + 150, 20, "white");//確認用
+            //fText("ch:" + k, chara[k].X * SIZE - SIZE+10, chara[k].Y * SIZE + 150, 20, "white");//確認用
             //fText("x:" + chara[k].X, chara[k].X * SIZE - SIZE - 20, chara[k].Y * SIZE + 150 + 20, 20, "white");//確認用
             //fText("y:" + chara[k].Y, chara[k].X * SIZE - SIZE - 20, chara[k].Y * SIZE + 150 + 40, 20, "white");//確認用
         }
@@ -3476,10 +3476,10 @@ function selMember() {
         //fText("動作キャラ: "+sel_member, 600, 350, 30, "white");//確認用
         //fText("tapX: "+tapX, 600, 150, 30, "white");//確認用
         //fText("tapY: "+tapY, 600, 200, 30, "white");//確認用
-        fText("x: "+x, 600, 250, 30, "white");//確認用
-        fText("y: "+y, 600, 300, 30, "white");//確認用
-        fText("staX: "+ (x*SIZE-SIZE-20), 600, 350, 20, "white");//確認用
-        fText("staY: "+ (y*SIZE+150-20), 600, 400, 20, "white");//確認用 
+        //fText("x: "+x, 600, 250, 30, "white");//確認用
+        //fText("y: "+y, 600, 300, 30, "white");//確認用
+        //fText("staX: "+ (x*SIZE-SIZE-20), 600, 350, 20, "white");//確認用
+        //fText("staY: "+ (y*SIZE+150-20), 600, 400, 20, "white");//確認用 
         for(i=1; i<=MEMBER_MAX; i++) {
             if(tapC == 1 && member_map[y][x] == i && chara[i].turn == 1 && chara[i].life > 0) {
                 tapC =0;
