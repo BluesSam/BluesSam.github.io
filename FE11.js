@@ -829,7 +829,7 @@ function mainloop() {
                     if(tapC == 1) {
                         tapC = 0;
                         clrMsg();
-                        scene = 40;
+                        scene = 41;
                         cut = 0;
                         counter = 0;
                         break;
@@ -1430,7 +1430,7 @@ function mainloop() {
             setAlp(30);
             fRect(0, 0, 800, 1000, "#000");
             setAlp(100);
-            drawImgTS(15, 800*int((counter-20)/3.5), 0, 800, 1000, 0, 0, 800, 1000);
+            drawImgTS(15, 800*int((counter-20)/2.5), 0, 800, 1000, 0, 0, 800, 1000);
             //setAlp(30);
             //fRect(0, 0, 800, 1000, "#000");
             //setAlp(100);
@@ -2187,7 +2187,7 @@ function mainloop() {
                 setAlp(30);
                 fRect(0, 0, 800, 1000, "#000");
                 setAlp(100);
-                drawImgTS(16, 800*int((counter-10)/3.5), 0, 800, 1000, 0, 0, 800, 1000);
+                drawImgTS(16, 800*int((counter-10)/2.5), 0, 800, 1000, 0, 0, 800, 1000);
                 
                 //setAlp((counter-10)*8);
                 //lineW(5);
