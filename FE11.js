@@ -196,8 +196,8 @@ class characterClass {//キャラクター用のクラス
 
 function setup() {
     canvasSize(800, 1000);
-    //             0       1      2          3          4            5           6             7              8            9           10       11      12      13     14
-    var IMG = ["title", "home", "elion" , "roselyn", "Griffin", "member_mini", "Mercenary", "horseKnight", "axFighter", "enemy_mini", "map1", "map2", "map3", "map4", "shop"];
+    //             0       1      2          3          4            5           6             7              8            9           10       11      12      13     14           15             16
+    var IMG = ["title", "home", "elion" , "roselyn", "Griffin", "member_mini", "Mercenary", "horseKnight", "axFighter", "enemy_mini", "map1", "map2", "map3", "map4", "shop", "player_phase", "enemy_phase"];
     for(var i=0; i<IMG.length; i++) loadImg(i, "imageFE/" + IMG[i] + ".png");
 
     //            0       1         2           3              4          5        6         7          8        9      10      11
@@ -1430,8 +1430,12 @@ function mainloop() {
             setAlp(30);
             fRect(0, 0, 800, 1000, "#000");
             setAlp(100);
-            setAlp((counter-20)*8);
-            fText("Player Phase", 400, 500, 80, "#0FF");
+            drawImgTS(15, 800*int((counter-20)/3.5), 0, 800, 1000, 0, 0, 800, 1000);
+            //setAlp(30);
+            //fRect(0, 0, 800, 1000, "#000");
+            //setAlp(100);
+            //setAlp((counter-20)*8);
+            //fText("Player Phase", 400, 500, 80, "#0FF");
             //sCir(200, 500, (counter-10)*30, "#0FF");
         }
         
@@ -2179,15 +2183,17 @@ function mainloop() {
         //fText("counter  "+ counter, 100, 220, 20, "white");//確認用 
         drawBG();
         if(scene == 51) {
-            if(10 <= counter  && counter <= 49) {
+            if(10 <= counter  && counter <= 40) {
                 setAlp(30);
                 fRect(0, 0, 800, 1000, "#000");
                 setAlp(100);
-                setAlp((counter-10)*8);
-                lineW(5);
-                fText("Enemy Phase", 400, 500, 80, "#F00");
+                drawImgTS(16, 800*int((counter-10)/3.5), 0, 800, 1000, 0, 0, 800, 1000);
+                
+                //setAlp((counter-10)*8);
+                //lineW(5);
+                //fText("Enemy Phase", 400, 500, 80, "#F00");
                 //sCir(600, 500, (counter)*30, "#F00");
-                lineW(2);
+                //lineW(2);
             }
             
             if(counter == 50) {
