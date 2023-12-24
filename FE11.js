@@ -1426,10 +1426,10 @@ function mainloop() {
             }
         }
         
-        if(20 <= counter  && counter <= 44) {
-            setAlp(30);
-            fRect(0, 0, 800, 1000, "#000");
-            setAlp(100);
+        if(20 <= counter  && counter <= 49) {
+            //setAlp(30);
+            //fRect(0, 0, 800, 1000, "#000");
+            //setAlp(100);
             drawImgTS(15, 800*int((counter-20)/2.5), 0, 800, 1000, 0, 0, 800, 1000);
             //setAlp(30);
             //fRect(0, 0, 800, 1000, "#000");
@@ -2183,10 +2183,10 @@ function mainloop() {
         //fText("counter  "+ counter, 100, 220, 20, "white");//確認用 
         drawBG();
         if(scene == 51) {
-            if(10 <= counter  && counter <= 35) {
-                setAlp(30);
-                fRect(0, 0, 800, 1000, "#000");
-                setAlp(100);
+            if(10 <= counter  && counter <= 40) {
+                //setAlp(30);
+                //fRect(0, 0, 800, 1000, "#000");
+                //setAlp(100);
                 drawImgTS(16, 800*int((counter-10)/2.5), 0, 800, 1000, 0, 0, 800, 1000);
                 
                 //setAlp((counter-10)*8);
