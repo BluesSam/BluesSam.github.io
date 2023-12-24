@@ -829,7 +829,7 @@ function mainloop() {
                     if(tapC == 1) {
                         tapC = 0;
                         clrMsg();
-                        scene = 41;
+                        scene = 40;
                         cut = 0;
                         counter = 0;
                         break;
@@ -1426,7 +1426,7 @@ function mainloop() {
             }
         }
         
-        if(20 <= counter  && counter <= 49) {
+        if(20 <= counter  && counter <= 44) {
             setAlp(30);
             fRect(0, 0, 800, 1000, "#000");
             setAlp(100);
@@ -2183,7 +2183,7 @@ function mainloop() {
         //fText("counter  "+ counter, 100, 220, 20, "white");//確認用 
         drawBG();
         if(scene == 51) {
-            if(10 <= counter  && counter <= 40) {
+            if(10 <= counter  && counter <= 35) {
                 setAlp(30);
                 fRect(0, 0, 800, 1000, "#000");
                 setAlp(100);
