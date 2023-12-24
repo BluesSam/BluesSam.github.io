@@ -1530,6 +1530,8 @@ function mainloop() {
                     if(cirBtn(300, 900, 100, "攻撃")) {
                     scene = 42;
                     counter = 0;
+                    setMsg("対象を選択");
+                    setMsg("");
                     } 
                 }
         }
@@ -1559,10 +1561,10 @@ function mainloop() {
 
         break;
 
-        case 42://攻撃する敵ユニットを選択  
-        
+        case 42://攻撃する敵ユニットを選択       
         //if(counter == 10) setMsg("攻撃する敵をクリックしてください");
-        drawBG();    
+        drawBG();
+        putMsg(400, 170);    
         var x = int(tapX/SIZE)+1;
         var y = int(tapY/SIZE)-2;
         if(cirBtn(700, 900, 100, "キャンセル")) {
@@ -1611,9 +1613,7 @@ function mainloop() {
                             cut = 1;
                             btl_char = sel_member;
                             def_char = EMY_TOP+i;
-                            putMsg(400, 250);
-                            setMsg("攻撃対象を選択");
-                            setMsg("");
+                            
                             
                         }
                         
@@ -1637,14 +1637,11 @@ function mainloop() {
                             cut = 1;
                             btl_char = sel_member;
                             def_char = EMY_TOP+i;
-                            setMsg("攻撃対象を選択");
-                            setMsg("");
                             
                         }
                 }
             }
             if(cut == 1) {
-                putMsg(400, 250);
                 lineW(3);
                 setAlp(80);
                 sRect(chara[def_char].X*SIZE-SIZE-9+(counter/5%5), chara[def_char].Y*SIZE+150-10+(counter/5%5), SIZE+20-(counter/2%12.5), SIZE+20-(counter/2%12.5), "#F09");//カーソルの枠を表示
@@ -2065,7 +2062,7 @@ function mainloop() {
                 if(cirBtn(500, 900, 100, "使用")) {
                     scene = 45;
                     counter = 0;
-                    setMsg("回復対象を選択");
+                    setMsg("対象を選択");
                     setMsg("");
                 }
             }
@@ -2075,12 +2072,14 @@ function mainloop() {
                     counter = 0;
                     c_atk = 1;//見切り反撃
                     use_item = 1;
+                    setMsg("対象を選択");
+                    setMsg("");
 
                 }
             }
         }     
         else if(scene == 45) {
-            putMsg(400, 250);
+            putMsg(400, 170);
             var x = int(tapX/SIZE)+1;
             var y = int(tapY/SIZE)-2;
             if(cirBtn(700, 900, 100, "キャンセル")) {
@@ -3643,7 +3642,7 @@ function drawBtlResult (i, n) {
         var m = chara[n].life + chara[i].ITEM[sel_item*3+2]
         if(m > chara[n].lfmax) m = chara[n].lfmax;
         //画像表示
-        setAlp(60);
+        setAlp(100);
         fRect(0, 0, 800, 230, "#090");
         setAlp(100);
         drawImgTS(1+i, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
@@ -3678,7 +3677,7 @@ function drawBtlResult (i, n) {
         var j = chara[n].life - chara[n].dmg;
         if(j < 0) j = 0;
         //画像表示
-        setAlp(60);
+        setAlp(100);
         fRect(0, 0, 800, 230, "#600");
         setAlp(100);
         drawImgTS(1+i, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
