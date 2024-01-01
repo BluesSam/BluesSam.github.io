@@ -196,8 +196,8 @@ class characterClass {//キャラクター用のクラス
 
 function setup() {
     canvasSize(800, 1000);
-    //             0       1      2          3          4            5           6             7              8            9           10       11      12      13     14           15             16
-    var IMG = ["title", "home", "elion" , "roselyn", "Griffin", "member_mini", "Mercenary", "horseKnight", "axFighter", "enemy_mini", "map1", "map2", "map3", "map4", "shop", "player_phase", "enemy_phase"];
+    //             0       1      2          3          4            5           6             7              8            9           10       11      12      13     14           15             16            17             18               19            20          21        22          23               24              25             26             27        28     29      30
+    var IMG = ["title", "home", "elion" , "roselyn", "Griffin", "member_mini", "Mercenary", "horseKnight", "axFighter", "enemy_mini", "map1", "map2", "map3", "map4", "shop", "player_phase", "enemy_phase", "condition", "condition_arr", "stage_clear", "game_over", "chapter", "status", "btl_result", "btl_result_back", "re_result", "re_result_back", "levelup", "btn1", "btn2", "btn3"];
     for(var i=0; i<IMG.length; i++) loadImg(i, "imageFE/" + IMG[i] + ".png");
 
     //            0       1         2           3              4          5        6         7          8        9      10      11
@@ -439,16 +439,18 @@ function mainloop() {
             if(counter <= 20) {
                 fill("black");
             }
-            if(21 <= counter && counter <= 90) {
-                setAlp(counter);
-                fText("断 章", 400, 300, 40, "white");
-                fText("王国攻防戦", 400, 500, 60, "white");
+            if(21 <= counter && counter <= 100) {
+                setAlp(counter-21);
+                drawImgTS(21, 800*0, 0, 800, 1000, 0, 0, 800, 1000);
+                setAlp(100);
             }
-            if(90 <= counter && counter <= 120) {     
-                setAlp(counter-90);
+            if(121 <= counter && counter <= 180) {          
+                drawImgTS(21, 800*0, 0, 800, 1000, 0, 0, 800, 1000);   
+                setAlp((counter-121)*3);
                 fill("white");
+                setAlp(100);
             }       
-            if(130 == counter) {
+            if(180 == counter) {
                 makeStage();
             } 
             break;
@@ -602,22 +604,23 @@ function mainloop() {
             if(counter <= 20) {
                 fill("black");
             }
-            if(21 <= counter && counter <= 90) {
-                setAlp(counter);
-                fText("1 章", 400, 300, 40, "white");
-                fText("盗賊討伐戦", 400, 500, 60, "white");
+            if(21 <= counter && counter <= 100) {
+                setAlp(counter-21);
+                drawImgTS(21, 800*1, 0, 800, 1000, 0, 0, 800, 1000);
+                setAlp(100);
             }
-            if(90 <= counter && counter <= 120) {     
-                setAlp(counter-90);
+            if(121 <= counter && counter <= 180) {          
+                drawImgTS(21, 800*1, 0, 800, 1000, 0, 0, 800, 1000);   
+                setAlp((counter-121)*3);
                 fill("white");
+                setAlp(100);
             }       
-            if(130 == counter) {
+            if(180 == counter) {
                 makeStage();
                 flg[FLG_EVENT+5] = 1;//背景を表示
                 break;
-            }    
-            break;
-            
+            } 
+            break;   
         }    
         if(event == FLG_EVENT+6) {//1章戦闘前会話
             drawBG();
@@ -745,20 +748,22 @@ function mainloop() {
             if(counter <= 20) {
                 fill("black");
             }
-            if(21 <= counter && counter <= 90) {
-                setAlp(counter);
-                fText("2 章", 400, 300, 40, "white");
-                fText("緑髪の騎士", 400, 500, 60, "white");
+            if(21 <= counter && counter <= 100) {
+                setAlp(counter-21);
+                drawImgTS(21, 800*2, 0, 800, 1000, 0, 0, 800, 1000);
+                setAlp(100);
             }
-            if(90 <= counter && counter <= 120) {     
-                setAlp(counter-90);
+            if(121 <= counter && counter <= 180) {          
+                drawImgTS(21, 800*2, 0, 800, 1000, 0, 0, 800, 1000);   
+                setAlp((counter-121)*3);
                 fill("white");
+                setAlp(100);
             }       
-            if(130 == counter) {
+            if(180 == counter) {
                 makeStage();
                 flg[FLG_EVENT+7] = 1;//背景を表示
                 break;
-            }    
+            } 
             break;
             
         }    
@@ -946,24 +951,26 @@ function mainloop() {
                 break;
             }
         }
-        if(event == FLG_EVENT+10) {//2章開始 
+        if(event == FLG_EVENT+10) {//3章開始 
             if(counter <= 20) {
                 fill("black");
             }
-            if(21 <= counter && counter <= 90) {
-                setAlp(counter);
-                fText("3 章", 400, 300, 40, "white");
-                fText("砂漠の謎", 400, 500, 60, "white");
+            if(21 <= counter && counter <= 100) {
+                setAlp(counter-21);
+                drawImgTS(21, 800*3, 0, 800, 1000, 0, 0, 800, 1000);
+                setAlp(100);
             }
-            if(90 <= counter && counter <= 120) {     
-                setAlp(counter-90);
+            if(121 <= counter && counter <= 180) {          
+                drawImgTS(21, 800*3, 0, 800, 1000, 0, 0, 800, 1000);   
+                setAlp((counter-121)*3);
                 fill("white");
+                setAlp(100);
             }       
-            if(130 == counter) {
+            if(180 == counter) {
                 makeStage();
                 flg[FLG_EVENT+10] = 1;//背景を表示
                 break;
-            }    
+            } 
             break;
             
         }    
@@ -1381,9 +1388,12 @@ function mainloop() {
             }
                 
             if(20 <= counter) {
-                setAlp(30);
-                fRect(0, 0, 800, 1000, "#000");
-                setAlp(100);
+                //setAlp(30);
+                //fRect(0, 0, 800, 1000, "#000");
+                //setAlp(100);
+                
+                drawImg(17, 0, 0);
+                drawImgTS(18, 800*int((counter-20)), 0, 800, 1000, 0, 0, 800, 1000);
                 setAlp((counter-20)*8);
                 fText("勝利条件", 400, 300, 50, "#0FF");
                 fText("敵全滅", 400, 400, 50, "#FFF");
@@ -1392,7 +1402,7 @@ function mainloop() {
                     if(tapC == 1) {
                         tapC = 0;
                         scene = 40;
-                        counter = 0;
+                        counter = 18;
                         break;
                     }
                 
@@ -1426,10 +1436,10 @@ function mainloop() {
             }
         }
         
-        if(20 <= counter  && counter <= 49) {
-            //setAlp(30);
-            //fRect(0, 0, 800, 1000, "#000");
-            //setAlp(100);
+        if(20 <= counter  && counter <= 44) {
+            setAlp(30);
+            fRect(0, 0, 800, 1000, "#000");
+            setAlp(100);
             drawImgTS(15, 800*int((counter-20)/2.5), 0, 800, 1000, 0, 0, 800, 1000);
             //setAlp(30);
             //fRect(0, 0, 800, 1000, "#000");
@@ -1897,11 +1907,7 @@ function mainloop() {
                 if(counter == 22) playSE(7);//レベルアップの短いBGM
     
                 if(23 <= counter && counter <= 70) {
-                    setAlp(30);
-                    fRect(0, 0, 800, 1000, "#000");
-                    setAlp(100);
-                    setAlp(counter*3);
-                    fText("Level Up!", 400, 500, 80, "white");
+                    drawImgTS(27, 800*int((counter-23)/1.5), 0, 800, 1000, 0, 0, 800, 1000);
                 }
                 
                 if(80 <= counter) {
@@ -2183,10 +2189,10 @@ function mainloop() {
         //fText("counter  "+ counter, 100, 220, 20, "white");//確認用 
         drawBG();
         if(scene == 51) {
-            if(10 <= counter  && counter <= 40) {
-                //setAlp(30);
-                //fRect(0, 0, 800, 1000, "#000");
-                //setAlp(100);
+            if(10 <= counter  && counter <= 35) {
+                setAlp(30);
+                fRect(0, 0, 800, 1000, "#000");
+                setAlp(100);
                 drawImgTS(16, 800*int((counter-10)/2.5), 0, 800, 1000, 0, 0, 800, 1000);
                 
                 //setAlp((counter-10)*8);
@@ -2712,50 +2718,40 @@ function mainloop() {
         case 55://敗北
         drawBG();
         if(scene == 54) {
-            if(10 <= counter) {
-                setAlp(30);
-                fRect(0, 0, 800, 1000, "#000");
-                setAlp(100);
-                setAlp((counter-10)*8);
-                lineW(5);
-                fText("STAGE CLEAR", 400, 500, 80, "#FF0");
-                //sCir(600, 500, (counter)*30, "#F00");
-                lineW(2);
+            if(10 <= counter && counter <= 24) {
+                drawImgTS(19, 800*int((counter-10)), 0, 800, 1000, 0, 0, 800, 1000);
             }
-            if(20 <= counter && tapC == 1) {
-                tapC = 0;
-                for (let i = 0; i <= STAGE_MAX; i++) {
-                    if (flg[FLG_STAGE + i] == 0) {
-                        
-                        event = FLG_STAGE + i;//ステージクリア後のイベント
-                        scene = 2;
-                        counter = 0;
-                        cut = 0;
-                        break;
+            if(25 <= counter) {
+                drawImgTS(19, 800*14, 0, 800, 1000, 0, 0, 800, 1000);
+                if(tapC == 1) {
+                    tapC = 0;
+                    for (let i = 0; i <= STAGE_MAX; i++) {
+                        if (flg[FLG_STAGE + i] == 0) {            
+                            event = FLG_STAGE + i;//ステージクリア後のイベント
+                            scene = 2;
+                            counter = 0;
+                            cut = 0;
+                            break;
+                        }
                     }
                 }
-                
-                
-                
-                //toHome();
             }
         }
         if(scene == 55) {
-            if(10 <= counter) {
-                setAlp(30);
-                fRect(0, 0, 800, 1000, "#000");
-                setAlp(100);
+            if(10 <= counter && 25 <= counter) {
                 setAlp((counter-10)*8);
-                lineW(5);
-                fText("GAME OVER", 400, 500, 80, "#F0B");
-                //sCir(600, 500, (counter)*30, "#F00");
-                lineW(2);
+                fRect(0, 0, 800, 1000, "#000");      
             }
-            if(20 <= counter && tapC == 1) {
-                tapC = 0;
-                scene = 0;
-                counter = 0;
-                cut = 0;
+            if(26 <= counter ) {
+                fRect(0, 0, 800, 1000, "#000");
+                setAlp((counter-26)*3);
+                drawImg(20, 0, 0);
+                if(tapC == 1) {
+                    tapC = 0;
+                    scene = 0;
+                    counter = 0;
+                    cut = 0;
+                }  
             }
         }
     }   
@@ -3223,20 +3219,19 @@ function cirBtn(x, y, r, txt) {//正円のボタン
     var ret = false;//クリックされたかを返す
     var col = "navy";
     if(x-r<tapX && tapX<x+r && y-r<tapY && tapY<y+r) {
-        col = "blue";
+        drawImgTS(29, 0, 0, 300, 293, x-178, y-180, 355, 348);
+        fText(txt, x, y-2, 30, "white");
         if(tapC > 0) {
             tapC = 0;
-            col ="white";
+            drawImgTS(30, 0, 0, 300, 293, x-178, y-180, 355, 348);
+            fText(txt, x, y-2, 30, "white");
             ret = true;
         }
 
-    }
-    lineW(2);
-    setAlp(50);
-    fCir(x, y, r, col);
-    setAlp(100);
-    sCir(x, y, r, "white");
-    fText(txt, x, y, 30, "white");
+    } else {
+        drawImgTS(28, 0, 0, 300, 293, x-178, y-180, 355, 348);
+        fText(txt, x, y-2, 30, "white");
+    }  
     if(ret == true) {
         playSE(5);
     }
@@ -3603,9 +3598,6 @@ function selEnemy() {
 function drawStatus () {
     var x = int(tapX/SIZE)+1;
     var y = int(tapY/SIZE)-2;
-    setAlp(60);
-    fRect(0, 0, 800, 230, "#026");
-    setAlp(100);
     if(0<=x && x<12 && 1<=y && y<8) {
         lineW(3);
         sRect(x*SIZE-SIZE, y*SIZE+150, SIZE, SIZE, "cyan");//マウスポインタのマスに正方形の細いカーソルを表示
@@ -3618,17 +3610,19 @@ function drawStatus () {
     }
     if(unit_st > 0 && unit_st <=CHARACTER_MAX && chara[unit_st].life > 0) {
         if(unit_st <= MEMBER_MAX) {//メンバーユニットの画像を表示
+            drawImgTS(22, 800*0, 0, 800, 1000, 0, 0, 800, 1000);
             drawImgTS(1+unit_st, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
             
         }
         if(unit_st >= EMY_TOP) {//敵ユニットの画像
+            drawImgTS(22, 800*1, 0, 800, 1000, 0, 0, 800, 1000);
             drawImgTS(chara[unit_st].typ+1, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
         }
         //ユニットのステータス
-        fText(chara[unit_st].name, 410, 50 , 30, "white");
+        fText(chara[unit_st].name, 414, 50 , 30, "white");
         fText("Lv.", 580, 30 , 25, "white");
         fText(chara[unit_st].level, 583, 55 , 30, "white");
-        fText("HP", 300, 110, 35, "white");
+        fText("HP", 300, 109, 30, "white");
         fText(chara[unit_st].life, 400, 108, 45, "white");
         fText("/ "+ chara[unit_st].lfmax, 470, 108, 30, "white");
         fText("攻撃", 300, 170, 30, "white");
@@ -3648,12 +3642,11 @@ function drawBtlResult (i, n) {
         var m = chara[n].life + chara[i].ITEM[sel_item*3+2]
         if(m > chara[n].lfmax) m = chara[n].lfmax;
         //画像表示
-        setAlp(100);
-        fRect(0, 0, 800, 230, "#090");
-        setAlp(100);
+        drawImg(26, 0, 0);
         drawImgTS(1+i, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
         drawImgTS(1+n, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
-        fText("HP", 400, 100, 35, "white");
+        drawImg(25, 0, 0);
+        fText("HP", 400, 100, 30, "white");
         //杖ユニットの結果 
             fText(chara[i].name, 250, 30 , 30, "white"); 
             fText(chara[i].life , 210, 98, 45, "white");
@@ -3683,25 +3676,24 @@ function drawBtlResult (i, n) {
         var j = chara[n].life - chara[n].dmg;
         if(j < 0) j = 0;
         //画像表示
-        setAlp(100);
-        fRect(0, 0, 800, 230, "#600");
-        setAlp(100);
+        drawImg(24, 0, 0);
         drawImgTS(1+i, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
         drawImgTS(chara[n].typ+1, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
-        fText("HP", 400, 100, 35, "white");
-        fText("攻撃", 400, 160, 30, "white");
+        drawImg(23, 0, 0);
+        fText("HP", 397, 98, 30, "white");
+        fText("攻撃", 400, 158, 30, "white");
         //メンバーユニットの結果 
             fText(chara[i].name, 250, 30 , 30, "white"); 
             fText(chara[i].life , 210, 98, 45, "white");
             fText("→" , 270, 98, 30, "white");
             if(m == 0) { fText(m , 330, 98, 45, "red"); } else { fText(m , 330, 98, 45, "white"); }
-            fText(chara[n].dmg, 270, 160, 30, "white");
+            fText(chara[n].dmg, 270, 158, 30, "white");
         //敵ユニットの結果
             fText(chara[n].name, 550, 30 , 30, "white");
             fText(chara[n].life , 470, 98, 45, "white");
             fText("→" , 530, 98, 30, "white");
             if(j == 0) { fText(j, 590, 98, 45, "red");} else { fText(j, 590, 98, 45, "white"); } 
-            fText(chara[i].dmg, 530, 160, 30, "white");
+            fText(chara[i].dmg, 530, 158, 30, "white");
     }
     
     
