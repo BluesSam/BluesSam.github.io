@@ -63,7 +63,7 @@ class characterClass {//キャラクター用のクラス
         this.staY  = 0;
         this.staX  = 0;
         this.ITEM  = new Array(ITEM_MAX*3);//アイテムの名前、説明、効果値
-        this.item  = new Array(ITEM_MAX);//アイテムの個数
+        this.item  = new Array(ITEM_MAX);//アイテムの個数1/;.
     }
 
     levelup() {//レベルアップ
@@ -75,7 +75,7 @@ class characterClass {//キャラクター用のクラス
 
     setEnemy(n) {
         n = (n-4)*8;
-        if(flg[FLG_STAGE+0] == 0) {      
+        if(flg[FLG_STAGE+0] == 0) {  
             this.name    = EMY[n];
             this.level   = EMY[n+1];
             this.lfmax   = EMY[n+2];
@@ -83,7 +83,7 @@ class characterClass {//キャラクター用のクラス
             this.stren   = EMY[n+3]; 
             this.defen   = EMY[n+4];
             this.move    = EMY[n+5];
-            this.atkrng  = EMY[n+6]; 
+            this.atkrng  = EMY[n+6];//射程
             this.typ     = EMY[n+7];//兵種。敵ユニットの行動順を決めるために使う。
         }
         else if(flg[FLG_STAGE+1] == 0) {
@@ -118,6 +118,17 @@ class characterClass {//キャラクター用のクラス
             this.move    = EMY_3[n+5];
             this.atkrng  = EMY_3[n+6]; 
             this.typ     = EMY_3[n+7];
+        }
+        else if(flg[FLG_STAGE+4] == 0) {
+            this.name    = EMY_4[n];
+            this.level   = EMY_4[n+1];
+            this.lfmax   = EMY_4[n+2];
+            this.life    = this.lfmax;
+            this.stren   = EMY_4[n+3]; 
+            this.defen   = EMY_4[n+4];
+            this.move    = EMY_4[n+5];
+            this.atkrng  = EMY_4[n+6]; 
+            this.typ     = EMY_4[n+7];
         }
         this.Y       = y;//┬敵ユニットのマス目上の位置
         this.X       = x;//┘
@@ -191,13 +202,14 @@ class characterClass {//キャラクター用のクラス
         this.movetime = 0;
         this.staY    = 0;
         this.staX    = 0;
+
     }
 }
 
 function setup() {
     canvasSize(800, 1000);
-    //             0       1      2          3          4            5           6             7              8            9           10       11      12      13     14           15             16            17             18               19            20          21        22          23               24              25             26             27        28     29      30
-    var IMG = ["title", "home", "elion" , "roselyn", "Griffin", "member_mini", "Mercenary", "horseKnight", "axFighter", "enemy_mini", "map1", "map2", "map3", "map4", "shop", "player_phase", "enemy_phase", "condition", "condition_arr", "stage_clear", "game_over", "chapter", "status", "btl_result", "btl_result_back", "re_result", "re_result_back", "levelup", "btn1", "btn2", "btn3"];
+    //             0       1      2          3          4            5           6             7              8            9           10       11      12      13     14           15             16            17             18               19            20          21        22          23               24              25             26             27        28     29      30     31           32           33            34            35           36           37            38              39          40      41
+    var IMG = ["title", "home", "elion" , "roselyn", "Griffin", "member_mini", "Mercenary", "horseKnight", "axFighter", "enemy_mini", "map1", "map2", "map3", "map4", "shop", "player_phase", "enemy_phase", "condition", "condition_arr", "stage_clear", "game_over", "chapter", "status", "btl_result", "btl_result_back", "re_result", "re_result_back", "levelup", "btn1", "btn2", "btn3", "boss", "window_dif", "window_spk", "window_tec", "window_lvup", "lvup+1", "map_keikoku", "eliminator", "dragon_knight", "move", "fly"];
     for(var i=0; i<IMG.length; i++) loadImg(i, "imageFE/" + IMG[i] + ".png");
 
     //            0       1         2           3              4          5        6         7          8        9      10      11
@@ -227,6 +239,9 @@ function mainloop() {
             }
             else if(flg[FLG_STAGE+3] == 0 && flg[FLG_EVENT+10] == 1) {//3章をクリアしていないかつ、3章を開始したなら
                 drawImgTS(13, 0, 0, 800, 1000, 0, 0, 800, 1000);//3章の背景 
+            }
+            else if(flg[FLG_STAGE+4] == 0 && flg[FLG_EVENT+12] == 1) {//4章をクリアしていないかつ、4章を開始したなら
+                drawImgTS(37, 0, 0, 800, 1000, 0, 0, 800, 1000);//4章の背景 
             }
         }   
         
@@ -263,18 +278,19 @@ function mainloop() {
             } 
         }   
         if(cut == 1){
-            drawFrame(10, 220, 780, 590, "black", "white", 100);
-            fText("難易度選択", 400, 300, 30, "white");
+            //drawFrame(10, 220, 780, 590, "black", "white", 100);//黒のウインドウ
+            drawImg(32, 0, 0);
+            fText("難易度を選択してください", 400, 400, 30, "white");
             //fText("盗賊討伐戦", 400, 415, 47, "white"); 
-            fText("初心者、中級者の方に", 550, 450, 25, "white");
-            fText("上級者の方に", 550, 620, 25, "white"); 
-                if(hexaBtn(220, 450, 200, 50, 20,  "NORMAL", "#900", "#F00", 100)) {
+            fText("初心者、中級者の方に", 540, 530, 25, "white");
+            fText("上級者の方に", 540, 650, 25, "white"); 
+                if(hexaBtn(260, 530, 200, 50, 20,  "NORMAL", "#900", "#F00", 100)) {
                     cut = 2;
                     dif = 0;
                     playSE(11);
                     break;    
                 }
-                if(hexaBtn(220, 620, 200, 50, 20,  "HARD", "#009", "#00F", 100)) {
+                if(hexaBtn(260, 650, 200, 50, 20,  "HARD", "#009", "#00F", 100)) {
                     cut = 2;
                     dif = 1;
                     playSE(11);
@@ -295,25 +311,28 @@ function mainloop() {
                 flg[FLG_EVENT+7] = 1;//2章　開始
                 flg[FLG_EVENT+8] = 1;//2章　戦闘前会話
                 flg[FLG_EVENT+9] = 1;//2章　グリフィンが駆けつける
-                flg[FLG_EVENT+10] = 0;//3章　開始
-                flg[FLG_EVENT+11] = 0;//3章　戦闘前会話
+                flg[FLG_EVENT+10] = 1;//3章　開始
+                flg[FLG_EVENT+11] = 1;//3章　戦闘前会話
+                flg[FLG_EVENT+12] = 0;//4章　開始
+                flg[FLG_EVENT+13] = 0;//4章　戦闘前会話
 
 
                 flg[FLG_STAGE+0] = 1;//断章　クリアしたら１
                 flg[FLG_STAGE+1] = 1;//1章
                 flg[FLG_STAGE+2] = 1;//2章
-                flg[FLG_STAGE+3] = 0;//3章
+                flg[FLG_STAGE+3] = 1;//3章
+                flg[FLG_STAGE+4] = 0;//4章
 
                 //動作確認用変数操作
-                gold = 99999999;
+                gold = 100000;
                 MEMBER_MAX = 3;
                 dif = 0;
 
                 //動作確認用ステータス操作
-                chara[1].lfmax = 30;
-                chara[1].life  = 30;
-                chara[1].stren = 20;
-                chara[1].defen = 15;
+                chara[1].lfmax = 50;
+                chara[1].life  = 50;
+                chara[1].stren = 50;
+                chara[1].defen = 50;
                 chara[1].move  = 2;
             }
             
@@ -338,13 +357,13 @@ function mainloop() {
             flg[FLG_EVENT+4] = 1;  
         }
            
-        drawImgTS(2, 0, 0, 160, 160, 410, 315, SIZE*4.2, SIZE*4.2);
-        putMsg(400, 750);
+        drawImgTS(2, 0, 0, 160, 160, 350, 300, SIZE*4.2, SIZE*4.2);
+        drawImg(34, 10, 220);
+        fText("何をしようか。", 410, 700, 30, "white");
      
         if(counter == 1) {
             autoSave();
-            setMsg("何をしようか。");
-            setMsg("");
+            
             
          }
 
@@ -401,8 +420,20 @@ function mainloop() {
                         break;    
                     }
             }
-            else {
-                fText("準備中", 400, 415, 47, "white"); 
+            else if(flg[FLG_STAGE+4] == 0){
+                fText("4 章", 400, 320, 30, "white");
+                fText("闇の渓谷", 400, 415, 47, "white"); 
+                fText("砂漠を調査したところ、妙な渓谷を発見した。", x, y, 25, "white");
+                fText("そこには、様子がおかしい帝国兵たちがいた。", x, y+40, 25, "white"); 
+                    if(hexaBtn(250, 680, 200, 50, 20,  "出撃", "#900", "#F00", 100)) {
+                        clrMsg();
+                        event = FLG_EVENT+12;
+                        scene = 2;
+                        counter = 0;
+                        cut = 0;
+                        playSE(11);
+                        break;    
+                    }
             }         
             if(hexaBtn(550, 680, 200, 50, 20,  "キャンセル", "#009", "#00F", 100)) {
                 cut = 0;
@@ -461,7 +492,7 @@ function mainloop() {
             if(cut == 0) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("行きましょう、エリオン。");
                 setMsg("敵を倒すんです。");
                 if(tapC == 1) {
@@ -471,9 +502,9 @@ function mainloop() {
                 }
             }
             if(cut == 1) {
-                putMsg(400, 500);
-                setMsg("ユニットをクリックして選択しましょう。");
-                setMsg("クリックした場所に移動し、「待機」を押しましょう。");
+                drawImg(34, 0, -5);
+                fText("ユニットをクリックして選択しましょう。", 400, 450, 20, "white");
+                fText("クリックした場所に移動し、「待機」を押しましょう。",400, 500, 20, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -485,7 +516,7 @@ function mainloop() {
             if(cut == 2) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("さあ、行きますよ。");
                 setMsg("敵を攻撃してください。");
                 if(tapC == 1) {
@@ -495,9 +526,9 @@ function mainloop() {
                 }
             }
             if(cut == 3) {
-                putMsg(400, 500);
-                setMsg("敵ユニットの近くまで動き、「攻撃」を押しましょう。");
-                setMsg("隣接する敵をクリックすると攻撃を開始します。");
+                drawImg(34, 0, -5);
+                fText("敵ユニットの近くまで動き、「攻撃」を押しましょう。", 400, 450, 20, "white");
+                fText("隣接する敵をクリックすると攻撃を開始します。",400, 500, 20, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -509,7 +540,7 @@ function mainloop() {
             if(cut == 4) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("傷を負いましたか。");
                 setMsg("私の杖で回復してあげます。");
                 if(tapC == 1) {
@@ -519,9 +550,9 @@ function mainloop() {
                 }
             }
             if(cut == 5) {
-                putMsg(400, 500);
-                setMsg("ローズは味方を回復できます。ローズの");
-                setMsg("アイテムから「ライブ」を選びましょう。");
+                drawImg(34, 0, -5);
+                fText("ローズは味方を回復できます。ローズの", 400, 450, 20, "white");
+                fText("アイテムから「ライブ」を選びましょう。",400, 500, 20, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -529,9 +560,9 @@ function mainloop() {
                 }
             }
             if(cut == 6) {
-                putMsg(400, 500);
-                setMsg("「ライブ」は隣接する味方を回復する杖です。");
-                setMsg("また、「傷薬」は自分のHPを回復できます。");
+                drawImg(34, 0, -5);
+                fText("「ライブ」は隣接する味方を回復する杖です。", 400, 450, 20, "white");
+                fText("また、「傷薬」は自分のHPを回復できます。",400, 500, 20, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -553,7 +584,7 @@ function mainloop() {
             if(cut == 1) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("無事にここは守ることができました。");
                 setMsg("他の部隊も大丈夫でしょう。");
                 if(tapC == 1) {
@@ -565,7 +596,7 @@ function mainloop() {
             if(cut == 2) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("エリオン、撤退しましょう。");
                 setMsg("");
                 if(tapC == 1) {
@@ -590,9 +621,9 @@ function mainloop() {
         }
         if(event == FLG_EVENT+4) {//ホーム画面のチュートリアル
             drawImgTS(1, 0, 0, 800, 1000, 0, 0, 800, 1000);//居住ドーム
-            putMsg(400, 500);
-            setMsg("ここはホームです。戦いの準備をしたり");
-            setMsg("ユニットのステータスを見ることができます。");
+            drawImg(34, 0, -5);
+            fText("ここはホームです。戦いの準備をしたり", 400, 450, 20, "white");
+            fText("ユニットのステータスを見ることができます。",400, 500, 20, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -628,7 +659,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("今回の任務は盗賊退治です。");
                 setMsg("この村を襲っている者たちを倒します。");
                 if(tapC == 1) {
@@ -642,7 +673,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(1);
                 putMsg(400, 900);
-                putName(1);
+                putName("エリオン");
                 setMsg("分かった。気をつけていこう。");
                 setMsg("");
                 if(tapC == 1) {
@@ -658,7 +689,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("エリオン、私はアサルトの杖を持っています。");
                 setMsg("これで、遠くの敵を攻撃できますよ。");
                 if(tapC == 1) {
@@ -670,9 +701,11 @@ function mainloop() {
             }
             if(cut == 3){
                 setAlp(counter);
-                putMsg(400, 500);
-                setMsg("アサルトの杖は1マス離れた敵を攻撃できます。");
-                setMsg("通常攻撃よりも威力が高いので強力です。");
+                drawImg(34, 0, -5);
+                fText("アサルトの杖は1マス離れた敵を攻撃できます。", 400, 450, 20, "white");
+                fText("通常攻撃よりも威力が高いので強力です。",400, 500, 20, "white");
+                setMsg();
+                setMsg();
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -696,7 +729,7 @@ function mainloop() {
             if(cut == 1) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("盗賊を全滅させました。");
                 setMsg("民間人の保護も完了しています。");
                 if(tapC == 1) {
@@ -708,7 +741,7 @@ function mainloop() {
             if(cut == 2) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("任務終了です。帰還しましょう。");
                 setMsg("");
                 if(tapC == 1) {
@@ -721,7 +754,7 @@ function mainloop() {
             if(cut == 3) {
                 putUnit(1);
                 putMsg(400, 900);
-                putName(1);
+                putName("エリオン");
                 setMsg("うん。そうしよう。");
                 setMsg("");
                 if(tapC == 1) {
@@ -773,7 +806,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("エリオン、敵の奇襲を受けました。");
                 setMsg("敵の数は膨大です。");
                 if(tapC == 1) {
@@ -787,7 +820,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(1);
                 putMsg(400, 900);
-                putName(1);
+                putName("エリオン");
                 setMsg("敵は馬に乗ってるね。");
                 setMsg("移動に注意して戦おう。");
                 if(tapC == 1) {
@@ -814,7 +847,7 @@ function mainloop() {
                     setAlp(counter);
                     putUnit(3);
                     putMsg(400, 900);
-                    putName(3);
+                    putName("グリフィン");
                     setMsg("ふう。帝国兵を追ってみたら");
                     setMsg("こんなに大勢いるとはな。");
                     if(tapC == 1) {
@@ -828,7 +861,7 @@ function mainloop() {
                     setAlp(counter);
                     putUnit(3);
                     putMsg(400, 900);
-                    putName(3);
+                    putName("グリフィン");
                     setMsg("ん？あれは王国兵か？");
                     setMsg("早く助けに行かないと。");
                     if(tapC == 1) {
@@ -853,7 +886,7 @@ function mainloop() {
             if(cut == 1) {
                 putUnit(1);
                 putMsg(400, 900);
-                putName(1);
+                putName("エリオン");
                 setMsg("緑髪の騎士、助けてくれてありがとう。");
                 setMsg("王国兵なのか？");
                 if(tapC == 1) {
@@ -865,7 +898,7 @@ function mainloop() {
             if(cut == 2) {
                 putUnit(3);
                 putMsg(400, 900);
-                putName(3);
+                putName("グリフィン");
                 setMsg("そうだ。俺はグリフィン。ここを偵察していたら");
                 setMsg("たまたま帝国兵を見かけてな。");
                 if(tapC == 1) {
@@ -878,7 +911,7 @@ function mainloop() {
             if(cut == 3) {
                 putUnit(3);
                 putMsg(400, 900);
-                putName(3);
+                putName("グリフィン");
                 setMsg("追ってみたらあんたたちがいたわけだ。");
                 setMsg("");
                 if(tapC == 1) {
@@ -891,7 +924,7 @@ function mainloop() {
             if(cut == 4) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("なんにせよ、助かりました。");
                 setMsg("私はローズ、こちらはエリオンです。");
                 if(tapC == 1) {
@@ -904,7 +937,7 @@ function mainloop() {
             if(cut == 5) {
                 putUnit(3);
                 putMsg(400, 900);
-                putName(3);
+                putName("グリフィン");
                 setMsg("ああ、よろしく頼むよ。");
                 setMsg("");
                 if(tapC == 1) {
@@ -917,7 +950,7 @@ function mainloop() {
             if(cut == 6) {
                 putUnit(3);
                 putMsg(400, 900);
-                putName(3);
+                putName("グリフィン");
                 setMsg("しばらくは偵察も兼ねてあんたたちと");
                 setMsg("行動を共にしよう。よろしくな。");
                 if(tapC == 1) {
@@ -928,9 +961,8 @@ function mainloop() {
                 }
             }
             if(cut == 7) {
-                putMsg(400, 500);
-                setMsg("グリフィンが加入しました！");
-                setMsg("");
+                drawImg(34, 0, -5);
+                fText("グリフィンが加入しました！", 400, 475, 20, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -947,7 +979,7 @@ function mainloop() {
                 scene = 3;
                 counter = 0;
                 cut = 0;
-                flg[FLG_STAGE + 2] = 1;//1章クリアのフラグ
+                flg[FLG_STAGE + 2] = 1;//2章クリアのフラグ
                 break;
             }
         }
@@ -980,7 +1012,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("砂漠の謎があると聞き、任務で来ましたが");
                 setMsg("なぜか帝国軍がいますね。");
                 if(tapC == 1) {
@@ -994,7 +1026,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(3);
                 putMsg(400, 900);
-                putName(3);
+                putName("グリフィン");
                 setMsg("ということは、謎は本当の可能性が高いね。");
                 setMsg("");
                 if(tapC == 1) {
@@ -1008,7 +1040,7 @@ function mainloop() {
                 setAlp(counter);
                 putUnit(1);
                 putMsg(400, 900);
-                putName(1);
+                putName("エリオン");
                 setMsg("うん。みんな、注意して進もう。");
                 setMsg("");
                 if(tapC == 1) {
@@ -1016,7 +1048,7 @@ function mainloop() {
                     clrMsg();
                     scene = 30;
                     cut = 0;
-                    counter = 0;
+                    counter = 6;
                     break;
                 }
             }
@@ -1032,9 +1064,9 @@ function mainloop() {
             if(cut == 1) {
                 putUnit(2);
                 putMsg(400, 900);
-                putName(2);
+                putName("ローズ");
                 setMsg("敵全滅を確認しました。あそこに見えるのは");
-                setMsg("遺跡でしょうか。なにかありそうですね。");
+                setMsg("渓谷でしょうか。なにかありそうですね。");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -1044,7 +1076,7 @@ function mainloop() {
             if(cut == 2) {
                 putUnit(1);
                 putMsg(400, 900);
-                putName(1);
+                putName("エリオン");
                 setMsg("帝国軍がここにいた理由があるのかも");
                 setMsg("しれない。調べてみよう。");
                 if(tapC == 1) {
@@ -1067,7 +1099,165 @@ function mainloop() {
                 break;
             }
         }
+        if(event == FLG_EVENT+12) {//4章開始 
+            if(counter <= 20) {
+                fill("black");
+            }
+            if(21 <= counter && counter <= 100) {
+                setAlp(counter-21);
+                drawImgTS(21, 800*4, 0, 800, 1000, 0, 0, 800, 1000);
+                setAlp(100);
+            }
+            if(121 <= counter && counter <= 180) {          
+                drawImgTS(21, 800*4, 0, 800, 1000, 0, 0, 800, 1000);   
+                setAlp((counter-121)*3);
+                fill("white");
+                setAlp(100);
+            }       
+            if(180 == counter) {
+                makeStage();
+                flg[FLG_EVENT+12] = 1;//背景を表示
+                break;
+            } 
+            break;   
+        }    
+        if(event == FLG_EVENT+13) {//4章戦闘前会話
+            drawBG();
+            if(cut == 0){
+                setAlp(counter);
+                putUnit(1);
+                putMsg(400, 900);
+                putName("エリオン");
+                setMsg("なんだ、あの帝国兵は？様子がおかしいぞ。");
+                setMsg("");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 1){
+                setAlp(counter);
+                putUnit(37);
+                putMsg(400, 900);
+                putName("???");
+                setMsg("......。");
+                setMsg("");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 2){
+                setAlp(counter);
+                putUnit(30);
+                putMsg(400, 900);
+                putName("???");
+                setMsg("実験の邪魔をするな。誰か知らんが。");
+                setMsg("");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 3){
+                setAlp(counter);
+                putUnit(30);
+                putMsg(400, 900);
+                putName("???");
+                setMsg("まあいい、お前らには「エリミネーター」の");
+                setMsg("実験に協力してもらおう。");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 4){
+                setAlp(counter);
+                putUnit(3);
+                putMsg(400, 900);
+                putName("グリフィン");
+                setMsg("来るぞ！");
+                setMsg("");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    scene = 30;
+                    cut = 0;
+                    counter = 6;
+                    break;
+                }
+            }
 
+        }
+        
+            
+        if(event == FLG_STAGE+4) {//4章クリア後
+            drawBG();
+            if(cut == 0 && counter <= 40) {         
+                setAlp(counter*5);
+                fill("black");
+                setAlp(100);
+            }
+            if(cut == 0 && counter == 41) cut = 1;
+            if(cut == 1) {
+                putUnit(1);
+                putMsg(400, 900);
+                putName("エリオン");
+                setMsg("なんとか倒せたが、一体何だ？");
+                setMsg("あの人間は！");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                }
+            }
+            if(cut == 2) {
+                putUnit(30);
+                putMsg(400, 900);
+                putName("???");
+                setMsg("ほう、少しはやるようだな。おかげで");
+                setMsg("良いデータがとれそうだ。");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 3) {
+                putUnit(2);
+                putMsg(400, 900);
+                putName("ローズ");
+                setMsg("逃げていきますね。追いましょう。");
+                setMsg("");
+                if(tapC == 1) {
+                    tapC = 0;
+                    clrMsg();
+                    cut++;
+                    counter = 0;
+                }
+            }
+            if(cut == 4 && counter <= 40) {
+                setAlp(counter*5);
+                fill("black");
+                setAlp(100);
+            }
+            if(cut == 4 && counter == 40) {
+                scene = 3;
+                counter = 0;
+                cut = 0;
+                flg[FLG_STAGE + 4] = 1;//4章クリアのフラグ
+                break;
+            }
+        }
 
         break;
 
@@ -1141,7 +1331,7 @@ function mainloop() {
                 }        
             }    
         }
-        if(event == FLG_STAGE+3) { //2章の戦利品
+        if(event == FLG_STAGE+3) { //3章の戦利品
             if(cut == 0) {
                 setAlp(counter*5);//ｙ　60ずつ
                 drawFrame(10, 80, 780, 700, "black", "white", 60);
@@ -1164,6 +1354,32 @@ function mainloop() {
                     chara[2].item[2] += 1;
                     chara[3].item[0] += 2;
                     gold += 1900;
+                }        
+            }    
+        }
+        if(event == FLG_STAGE+4) { //4章の戦利品
+            if(cut == 0) {
+                setAlp(counter*5);//ｙ　60ずつ
+                drawFrame(10, 80, 780, 700, "black", "white", 60);
+                fText("戦利品", 400, 120, 30, "white");
+                fText("2300 G" , 200, 200, 30, "white");
+                fText("傷薬", 200, 260, 30, "white");
+                fText("各x" + "3", 600, 260, 30, "white");
+                fText("ライブ", 200, 320, 30, "white");
+                fText(("x" + "3"), 600, 320, 30, "white");
+                fText("アサルト", 200, 380, 30, "white");
+                fText(("x" + "2"), 600, 380, 30, "white");
+                setAlp(100);
+                if(40 <= counter && tapC == 1) {
+                    tapC = 0;
+                    cut  = 1;
+                    counter = 0;
+                    chara[1].item[0] += 3;
+                    chara[2].item[0] += 3;
+                    chara[2].item[1] += 3;
+                    chara[2].item[2] += 2;
+                    chara[3].item[0] += 3;
+                    gold += 2300;
                 }        
             }    
         }
@@ -1338,9 +1554,8 @@ function mainloop() {
             drawFrame(540, 20, 250, 50, "black", "white", 100);//G
             fText(gold, 660, 45, 30, "white");//G  
             fText("G", 770, 45, 30, "white");//G
-            putMsg(400, 500);
-            setMsg(shop[sel_item*3] + "を手に入れた！");
-            setMsg("");
+            drawImg(34, 0, 0);
+            fText(shop[sel_item*3] + "を手に入れた！", 405, 480, 30, "white");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -1381,6 +1596,13 @@ function mainloop() {
                 else if(flg[FLG_EVENT+11] == 0) {//3章　戦闘前会話
                     flg[FLG_EVENT+11] = 1;
                     event = FLG_EVENT+11;
+                    scene = 2;
+                    cut = 0;
+                    counter = 0;
+                }
+                else if(flg[FLG_EVENT+13] == 0) {//4章　戦闘前会話
+                    flg[FLG_EVENT+13] = 1;
+                    event = FLG_EVENT+13;
                     scene = 2;
                     cut = 0;
                     counter = 0;
@@ -1544,8 +1766,6 @@ function mainloop() {
                     if(cirBtn(300, 900, 100, "攻撃")) {
                     scene = 42;
                     counter = 0;
-                    setMsg("対象を選択");
-                    setMsg("");
                     } 
                 }
         }
@@ -1577,8 +1797,9 @@ function mainloop() {
 
         case 42://攻撃する敵ユニットを選択       
         //if(counter == 10) setMsg("攻撃する敵をクリックしてください");
-        drawBG();
-        putMsg(400, 170);    
+        drawBG();   
+        drawImg(34, 0, -350);
+        fText("対象を選択してください", 400, 125, 25, "white");
         var x = int(tapX/SIZE)+1;
         var y = int(tapY/SIZE)-2;
         if(cirBtn(700, 900, 100, "キャンセル")) {
@@ -1679,6 +1900,8 @@ function mainloop() {
         case 47://経験値の表示
         case 48://レベルアップ判定    
             putMsg(400, 900);
+            putName("ナビ");
+            drawImg()
             drawBG();
             //fText("counter: " + counter, 200, 750, 30, "white");//確認用
             if(scene == 43) {
@@ -1735,13 +1958,16 @@ function mainloop() {
                             if(player_phase == 1) {//プレイヤーのターンだった場合、ユニット選択sceneに戻る
                                 scene = 41;
                                 counter = 0;
+                                
+                                
                             } else {//敵のターンだった場合、次の敵の行動に移る。
                                 scene = 52;
+                               
                             }
                         }
                         else {
                             setMsg(chara[def_char].name + "を倒した");
-                            console.log(chara[def_char].name + "を倒した");//確認用
+                            //console.log(chara[def_char].name + "を倒した");//確認用
                             //log("倒した直後chara[" + def_char + "].dmg: " + chara[def_char].dmg);//確認用
                             //log("倒した直後chara[" + def_char + "].life: " + chara[def_char].life);//確認用
                             enemy_map[chara[def_char].Y][chara[def_char].X] = 0;
@@ -1756,8 +1982,8 @@ function mainloop() {
                                 if(gexp < 1) gexp = 1;
                             }
                             
-                            setMsg(gexp + "の経験値を獲得！");
-                            console.log(gexp + "の経験値を獲得！");//確認用
+                            //setMsg(gexp + "の経験値を獲得！");
+                            //console.log(gexp + "の経験値を獲得！");//確認用
                             lvup = btl_char;
                             scene = 47;//経験値の描画、レベルアップの確認へ
                             counter = 0;
@@ -1781,8 +2007,8 @@ function mainloop() {
                                 gexp = int((30-5*(chara[btl_char].level-chara[def_char].level))/3);
                                 if(gexp < 1) gexp = 1;
                             }                           
-                            setMsg(gexp + "の経験値を獲得！");
-                            console.log(gexp + "の経験値を獲得！");//確認用
+                            //setMsg(gexp + "の経験値を獲得！");
+                            //console.log(gexp + "の経験値を獲得！");//確認用
                             lvup = btl_char;
                             scene = 47;//経験値の描画、レベルアップの確認へ
                             counter = 0;
@@ -1806,7 +2032,7 @@ function mainloop() {
                 }
             }
             else if(scene == 47) {//経験値の描画
-                drawFrame(180, 483, 430, 50, "black", "white", 60);
+                drawFrame(180, 483, 430, 50, "#003", "white", 60);
                 fText("EXP", 280, 507, 30, "white"); 
                 drawBar(330, 500, 200, 20, chara[lvup].exp, 100, "#00F", "#008");
                 fText(chara[lvup].exp, 570, 507, 30, "white");
@@ -1869,7 +2095,7 @@ function mainloop() {
             }
             else if(scene == 48) {//レベルアップ判定
                 if(0 <= counter && counter <= 9) {//レベルが上がらなかったとき、9フレーム静止
-                    drawFrame(180, 483, 430, 50, "black", "white", 60);
+                    drawFrame(180, 483, 430, 50, "#003", "white", 60);
                     fText("EXP", 280, 507, 30, "white"); 
                     drawBar(330, 500, 200, 20, chara[lvup].exp, 100, "#00F", "#008");
                     fText(chara[lvup].exp, 570, 507, 30, "white"); 
@@ -1897,7 +2123,7 @@ function mainloop() {
                 }
 
                 if(12 <= counter && counter <= 21) {//レベルが上がったときも、9フレーム静止
-                    drawFrame(180, 483, 430, 50, "black", "white", 60);
+                    drawFrame(180, 483, 430, 50, "#003", "white", 60);
                     fText("EXP", 280, 507, 30, "white"); 
                     drawBar(330, 500, 200, 20, chara[lvup].exp, 100, "#FF0", "#880");
                     fText(chara[lvup].exp, 570, 507, 30, "#FF0"); 
@@ -1912,23 +2138,24 @@ function mainloop() {
                 
                 if(80 <= counter) {
                     drawImgTS(1+lvup, 0, 0, 160, 160, 50, 260, SIZE*4, SIZE*4);  
-                    drawFrame(400, 140, 300, 560, "black", "white", 60);//大きい方
-                    drawFrame(60, 580, 310, 80, "black", "white", 60);
-                    fText(chara[lvup].name, 210, 620, 30, "white");
-                    fText("Lv.", 530, 240, 30, "white");
-                    fText(chara[lvup].level, 580, 240, 30, "white");
-                    fText("HP", 490, 340, 30, "white");
-                    fText(chara[lvup].lfmax, 620, 340, 30, "white");
-                    fText("攻撃", 490, 440, 30, "white");
-                    fText(chara[lvup].stren, 620, 440, 30, "white");
-                    fText("守備", 490, 540, 30, "white");
-                    fText(chara[lvup].defen, 620, 540, 30, "white");
+                    drawImg(35, 0, 0);
+                    //drawFrame(400, 140, 300, 560, "black", "white", 60);//大きい方
+                    //drawFrame(60, 580, 310, 80, "black", "white", 60);
+                    fText(chara[lvup].name, 210, 600, 30, "white");
+                    fText("Lv.", 560, 350, 30, "white");
+                    fText(chara[lvup].level, 630, 350, 30, "white");
+                    fText("HP", 510, 435, 30, "white");
+                    fText(chara[lvup].lfmax, 640, 435, 30, "white");
+                    fText("攻撃", 510, 492, 30, "white");
+                    fText(chara[lvup].stren, 640, 492, 30, "white");
+                    fText("守備", 510, 550, 30, "white");
+                    fText(chara[lvup].defen, 640, 550, 30, "white");
                     
                 }
 
-                if(pin[0] == 1) fText("+1", 670, 339, 30, "#0FF"); //lfmaxがピンしたか
-                if(pin[1] == 1) fText("+1", 670, 439, 30, "#0FF"); //strenがピンしたか
-                if(pin[2] == 1) fText("+1", 670, 539, 30, "#0FF"); //defenがピンしたか
+                if(pin[0] == 1) drawImg(36, 680, 405); //lfmaxがピンしたか
+                if(pin[1] == 1) drawImg(36, 680, 462); //strenがピンしたか
+                if(pin[2] == 1) drawImg(36, 680, 518); //defenがピンしたか
 
                 if(counter == 100) {
                     chara[lvup].level++;
@@ -2001,7 +2228,7 @@ function mainloop() {
                 if(160 <= counter) {
                     if(tapC == 1) {
                         tapC == 0;
-                        setMsg("レベルアップ判定終了");
+                        //setMsg("レベルアップ判定終了");
                         for(i=0; i<3; i++) pin[i] = 0;//ピン判定の保存配列の初期化
         
                         //勝利判定
@@ -2068,12 +2295,10 @@ function mainloop() {
                     counter = 0;
                 }
             }
-            if(chara[sel_member].ITEM[sel_item*3] == "ライブ" && chara[sel_member].item[sel_item] > 0) {   
+            if(chara[sel_member].ITEM[sel_item*3] == "ライブ" && chara[sel_member].item[sel_item] > 0) {  
                 if(cirBtn(500, 900, 100, "使用")) {
                     scene = 45;
-                    counter = 0;
-                    setMsg("対象を選択");
-                    setMsg("");
+                    counter = 0;         
                 }
             }
             if(chara[sel_member].ITEM[sel_item*3] == "アサルト" && chara[sel_member].item[sel_item] > 0) {
@@ -2082,14 +2307,13 @@ function mainloop() {
                     counter = 0;
                     c_atk = 1;//見切り反撃
                     use_item = 1;
-                    setMsg("対象を選択");
-                    setMsg("");
 
                 }
             }
         }     
         else if(scene == 45) {
-            putMsg(400, 170);
+            drawImg(34, 0, -350);
+            fText("対象を選択してください", 400, 125, 25, "white");
             var x = int(tapX/SIZE)+1;
             var y = int(tapY/SIZE)-2;
             if(cirBtn(700, 900, 100, "キャンセル")) {
@@ -2163,8 +2387,8 @@ function mainloop() {
                 } 
                 else if(chara[sel_member].ITEM[sel_item*3] == "ライブ") { 
                     gexp = 30;
-                    setMsg(gexp + "の経験値を獲得！");
-                    console.log(gexp + "の経験値を獲得！");//確認用
+                    //setMsg(gexp + "の経験値を獲得！");
+                    //console.log(gexp + "の経験値を獲得！");//確認用
                     lvup = sel_member;
                     btl_char = sel_member;
                     scene = 47;//経験値の描画、レベルアップの確認へ
@@ -2228,6 +2452,11 @@ function mainloop() {
         //ターゲットまでの距離が計算でき、ターゲットが「その敵の攻撃が届く移動範囲外」だった場合、移動範囲内のターゲットまでの最短距離のマスに移動する。
 
                 if(chara[btl_char].life > 0 ) {
+
+                    //敵ターン開始時のスキル発動
+                    //if(chara[btl_char].typ == 8) {//エリミネーターの自己再生スキル
+                            //chara[btl_char].life = chara[btl_char].lfmax; 
+                    //}
 
                     //ターゲットユニットを決める
                     for(def_char=1; def_char<=MEMBER_MAX; def_char++) {//このdef_charはターゲットではない。bfs()を使うために便宜上、このfor文のみdef_charを使う。
@@ -2807,10 +3036,9 @@ var MENU = [//メニューボタン
 "HOME", null, null, null,
 "HOME", null, null, null
 ];
-
 //キャラクターの管理
 var MEMBER_MAX = 3;//パーティメンバーの人数
-var CHARACTER_MAX = 17;//キャラクターの総数（戦闘に参加する味方＋敵の数）
+var CHARACTER_MAX = 18;//キャラクターの総数（戦闘に参加する味方＋敵の数）
 var EMY_TOP = 4;//敵の添え字の開始番号
 var sel_member = 1;
 var sel_enemy  = new Array(EMY_MAX).fill(0);
@@ -2833,7 +3061,7 @@ var EMY_MAX = 6;
 var EMY = [//   　　  Lv  HP atk def mov rng typ
 "マーシナリー",        1, 26, 17,  4,  2,  1,  5,
 "ソシアルナイト",      2, 30, 22, 10,  3,  1,  6,
-"アクスファイター",    5, 26, 15,  1,  2,  1,  7
+"アクスファイター",    5, 26, 15,  1,  2,  1,  7,
 ];
 var EMY_1 = [//   　  Lv  HP atk def mov rng typ
 "マーシナリー",        6, 23, 15,  2,  2,  1,  5,
@@ -2849,6 +3077,13 @@ var EMY_3 = [//   　  Lv  HP atk def mov rng typ
 "マーシナリー",        8, 25, 17, 3,  2,  1,  5,
 "ソシアルナイト",      8, 23, 15, 2,  3,  1,  6,
 "アクスファイター",    8, 28, 20, 2,  2,  1,  7
+];
+var EMY_4 = [//   　  Lv  HP atk def mov rng typ
+"マーシナリー",        8, 25, 17, 3,  2,  1,  5,
+"ソシアルナイト",      8, 23, 15, 2,  3,  1,  6,
+"アクスファイター",    8, 28, 20, 2,  2,  1,  7,
+"エリミネーター",      9, 40, 50, 1,  1,  1,  8,
+"ドラゴンナイト",      9, 26, 19, 3,  2,  1,  9
 ];
 
 var EMY_H = [//   　　Lv  HP atk def mov rng typ
@@ -2887,7 +3122,7 @@ var shop = [//ショップの商品、数字は売価
 
 //マップの管理
 var SIZE = 80;
-var STAGE_MAX = 3;//ステージクリアフラグを立てるために使う
+var STAGE_MAX = 4;//ステージクリアフラグを立てるために使う
 var stage = [
     [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
     [-1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,-1],
@@ -3067,6 +3302,41 @@ var enemy_map_4 = [
     [ 0, 5, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0],
     [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
+var stage_5 = [
+    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+    [-1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0,-1],
+    [-1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0,-1],
+    [-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,-1],
+    [-1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,-1],
+    [-1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0,-1],
+    [-1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,-1],
+    [-1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,-1],
+    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+];
+
+var member_map_5 = [
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+
+var enemy_map_5 = [
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 7, 0, 0, 0, 0, 0, 8, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
 
 
 
@@ -3118,9 +3388,23 @@ var bfs = (start, goal, table, table_2) => {//startの座標からgoalの座標�
         
 
         //テーブルの範囲内かつ道かつ未探索の場合
-        if((0 <= ny && ny < table.length) &&
+        if(chara[btl_char].typ == 9) {//飛行兵種の場合
+            if((0 <= ny && ny < table.length) &&
+            (0 <= nx && nx < table[0].length) &&
+            //table[ny][nx] == "0" &&
+            table[ny][nx] != "-1" &&
+            member_map[ny][nx] == "0" &&
+            //enemy_map[ny][nx] == " 0" &&
+            !visitedArr[ny][nx]) {
+                queue.push([ny, nx]);
+                visitedArr[ny][nx] = true;
+                table_2[ny][nx] = table_2[y][x] + 1//これが移動力と等しくなったら処理を終了するか？
+            }
+        }
+        else if((0 <= ny && ny < table.length) &&//飛行兵種ではない場合
         (0 <= nx && nx < table[0].length) &&
         table[ny][nx] == "0" &&
+        //table[ny][nx] != "-1" &&
         member_map[ny][nx] == "0" &&
         //enemy_map[ny][nx] == " 0" &&
         !visitedArr[ny][nx]) {
@@ -3179,16 +3463,30 @@ var bfsZero = (start, goal, table, table_2) => {//distance=-1のときの、star
         
 
         //テーブルの範囲内かつ道かつ未探索の場合
-        if((0 <= ny && ny < table.length) &&
-        (0 <= nx && nx < table[0].length) &&
-        table[ny][nx] == "0" &&
-        member_map[ny][nx] == "0" &&
-        //enemy_map[ny][nx] == " 0" &&
-        !visitedArr[ny][nx]) {
-            queue.push([ny, nx]);
-            visitedArr[ny][nx] = true;
-            table_2[ny][nx] = table_2[y][x] + 1//これが移動力と等しくなったら処理を終了するか？
+        if(chara[btl_char].typ == 9) {//飛行兵種の場合
+            if((0 <= ny && ny < table.length) &&
+            (0 <= nx && nx < table[0].length) &&
+            //table[ny][nx] == "0" &&
+            table[ny][nx] != "-1" &&
+            member_map[ny][nx] == "0" &&
+            //enemy_map[ny][nx] == " 0" &&
+            !visitedArr[ny][nx]) {
+                queue.push([ny, nx]);
+                visitedArr[ny][nx] = true;
+                table_2[ny][nx] = table_2[y][x] + 1//これが移動力と等しくなったら処理を終了するか？
+            }
         }
+        else if((0 <= ny && ny < table.length) &&//飛行兵種ではない場合
+            (0 <= nx && nx < table[0].length) &&
+            table[ny][nx] == "0" &&
+            //table[ny][nx] != "-1" &&
+            member_map[ny][nx] == "0" &&
+            //enemy_map[ny][nx] == " 0" &&
+            !visitedArr[ny][nx]) {
+                queue.push([ny, nx]);
+                visitedArr[ny][nx] = true;
+                table_2[ny][nx] = table_2[y][x] + 1//これが移動力と等しくなったら処理を終了するか？
+            }
     }
     }
     return distance;//最短距離を返す。ゴールに到達していなければ-1を返す。
@@ -3309,8 +3607,9 @@ function setMsg(ms) {
 }
 
 function putMsg(x, y) {
-    drawFrame(x-370, y-100, 740, 120, "black", "white", 100);
-    for(var i=0; i<MSG_MAX; i++) fText(msg[i], x, y-60+i*40, 28, "white");
+    //drawFrame(x-370, y-100, 740, 120, "black", "white", 100);
+    drawImg(33, 0, 0);//会話のウインドウ
+    for(var i=0; i<MSG_MAX; i++) fText(msg[i], x, y-10+i*40, 28, "white");
 }
 
 function putUnit(i) {
@@ -3320,8 +3619,8 @@ function putUnit(i) {
 }
 
 function putName(i) {
-    drawFrame(510, 760, 250, 50, "black", "white", 100);
-    fText(chara[i].name, 630, 785, 30, "white");
+    //drawFrame(510, 760, 250, 50, "black", "white", 100);
+    fText(i, 290, 830, 22, "white");
 }
 
 function drawFrame(x, y, w, h, col_1 ,col_2, alp) {//枠を描く
@@ -3377,6 +3676,17 @@ function makeStage() {
                 stage[i][j] = stage_4[i][j];
                 member_map[i][j] = member_map_4[i][j];
                 enemy_map[i][j] = enemy_map_4[i][j];
+            }
+        }
+    }
+    else if(flg[FLG_STAGE+4] == 0) {//4章
+        EMY_MAX = 5;
+        MEMBER_MAX = 3;
+        for (let i = 0; i < stage.length; i++) {
+            for (let j = 0; j < stage[i].length; j++) {
+                stage[i][j] = stage_5[i][j];
+                member_map[i][j] = member_map_5[i][j];
+                enemy_map[i][j] = enemy_map_5[i][j];
             }
         }
     }
@@ -3616,7 +3926,15 @@ function drawStatus () {
         }
         if(unit_st >= EMY_TOP) {//敵ユニットの画像
             drawImgTS(22, 800*1, 0, 800, 1000, 0, 0, 800, 1000);
-            drawImgTS(chara[unit_st].typ+1, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
+            if(chara[unit_st].typ == 8) {
+                drawImgTS(38, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
+            } else if (chara[unit_st].typ == 9) {
+                drawImgTS(39, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
+            } else if (chara[unit_st].typ == 10) {
+                drawImgTS(31, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
+            } else {
+                drawImgTS(chara[unit_st].typ+1, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
+            }
         }
         //ユニットのステータス
         fText(chara[unit_st].name, 414, 50 , 30, "white");
@@ -3629,6 +3947,9 @@ function drawStatus () {
         fText(chara[unit_st].stren, 380, 170, 30, "white");
         fText("守備", 460, 170, 30, "white");
         fText(chara[unit_st].defen, 540, 170, 30, "white");
+        drawImg(40, 620, 35);//移動力画像
+        fText(chara[unit_st].move, 675, 55, 30, "white");//移動力
+        if(chara[unit_st].typ == 9) drawImg(41, 620, 75);//飛行兵種の飛行マーク
     }
 }
 
@@ -3678,7 +3999,16 @@ function drawBtlResult (i, n) {
         //画像表示
         drawImg(24, 0, 0);
         drawImgTS(1+i, 0, 0, 160, 160, 0, 0, SIZE*3-10, SIZE*3-10);
-        drawImgTS(chara[n].typ+1, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
+        if (chara[n].typ == 8) {//エリミネーターの場合（エリミネーターは画像が連番ではない）
+            drawImgTS(38, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
+        } else if (chara[n].typ == 9) {//ドラゴンナイト
+            drawImgTS(39, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
+        } else if (chara[n].typ == 10) {//ボス（フード）
+            drawImgTS(31, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
+        } 
+        else {
+            drawImgTS(chara[n].typ+1, 0, 0, 160, 160, SIZE*7, 0, SIZE*3-10, SIZE*3-10);
+        }
         drawImg(23, 0, 0);
         fText("HP", 397, 98, 30, "white");
         fText("攻撃", 400, 158, 30, "white");
