@@ -4297,7 +4297,7 @@ function makeStage() {
         }
     }
     else if(flg[FLG_STAGE+4] == 0) {//4章
-        EMY_MAX = 5;
+        EMY_MAX = 6;
         MEMBER_MAX = 3;
         for (let i = 0; i < stage.length; i++) {
             for (let j = 0; j < stage[i].length; j++) {
