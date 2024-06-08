@@ -4590,7 +4590,7 @@ function drawStatus () {
         fText(chara[unit_st].move, 675, 55, 30, "white");//移動力
         if(chara[unit_st].typ == 9) { 
             drawImg(41, 620, 75);//飛行兵種の飛行マーク
-            fText("飛行", 695, 100, 25, "white");//飛行
+            fText("飛行", 690, 105, 25, "white");//飛行
         }
     }
 }
