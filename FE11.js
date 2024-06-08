@@ -1532,7 +1532,7 @@ function mainloop() {
                 putUnit(30);
                 putMsg(400, 900);
                 putName("???");
-                setMsg("まあいい。どうせここで死ぬからな。");
+                setMsg("教えてやる。どうせここで死ぬからな。");
                 setMsg("俺は、帝国生物兵器の科学者だ。");
                 if(tapC == 1) {
                     tapC = 0;
