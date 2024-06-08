@@ -1594,8 +1594,8 @@ function mainloop() {
                 putUnit(1);
                 putMsg(400, 900);
                 putName("エリオン");
-                setMsg("あのエリミネーターは動きが速いが、");
-                setMsg("障害物と杖を上手く利用すれば倒せるか...?");
+                setMsg("あのエリミネーターは強いな...。");
+                setMsg("だが、必ず突破口があるはずだ。");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
@@ -1632,8 +1632,8 @@ function mainloop() {
                 putUnit(1);
                 putMsg(400, 900);
                 putName("エリオン");
-                setMsg("強敵だった。まさかこんな兵器が作られているなんて。");
-                setMsg("");
+                setMsg("強敵だった。まさかこんな兵器が");
+                setMsg("作られているなんて。");
                 if(tapC == 1) {
                     tapC = 0;
                     clrMsg();
