@@ -361,7 +361,7 @@ function mainloop() {
         }
         if(cut == 2) {       
             tapC = 0;         
-            test = 1;//動作確認をするなら１
+            test = 0;//動作確認をするなら１
             if(test == 1) {
                 //動作確認用フラグ操作
                 flg[FLG_EVENT+1] = 1;//ゲームを初めからプレイ
